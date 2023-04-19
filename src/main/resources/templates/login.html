@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{base::Layout(~{::section})}" >
+      th:replace="~{base::Layout(~{::section})}">
 <head>
-  <meta charset="UTF-8">
-  <title>user login</title>
+  <meta charset="ISO-8859-1">
+  <title>Insert title here</title>
 
 </head>
 <body>
 
+
 <section>
+
   <div class="container p-5">
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <div class="card">
           <div class="card-header text-center fs-4">Login Page</div>
-          <div th:if="${param.error}" class="alert alert-danger">
-            INVALID Username or Password
-          </div>
-          <div th:if="${param.Logout}" class="alert alert-success">
-            Logout Successfully!
-          </div>
-          <div class="card-body">
-            <form action="/login" method="post">
-              <div class="mb-3">
-                <label>Enter email
-                </label>
-                <input type="text"
-                       name="username"
-                       class="form-control">
-              </div>
-<!--              <div class="mb-3">-->
-<!--                <label>Enter phone number-->
-<!--                </label>-->
-<!--                <input type="number"-->
-<!--                       name="ph"-->
-<!--                       class="form-control">-->
-<!--              </div>-->
-              <div class="mb-3">
-                <label>Set password
-                </label>
-                <input type="password"
-                       name="password"
-                       class="form-control">
-              </div>
-              <button class="btn btn-primary col-md-12" >Login</button>
-            </form>
 
+          <th:block th:if="${session.msg}">
+            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
+            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+          </th:block>
+<!--          <th:block th:if="${param.error}" class="alert alert-danger">-->
+<!--            Invalid username & Password-->
+<!--            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>-->
+<!--          </th:block>-->
+
+<!--          <th:block th:if="${param.logout}" class="alert alert-success">-->
+<!--            Logout Sucessfully-->
+<!--            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>-->
+<!--          </th:block>-->
+
+          <div class="card-body">
+
+            <form>
+              <div class="form-group">
+                <label for="newUsername">* Username: </label>
+                <input
+                      required="required" type="text" class="form-control"
+                      id="newUsername" name="username" />
+                <p style="color: #828282">Enter your username here.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="password">* Password: </label> <input
+                      required="required" type="password" class="form-control"
+                      id="password" name="password" />
+                <p style="color: #828282">Enter password</p>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Log in</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
