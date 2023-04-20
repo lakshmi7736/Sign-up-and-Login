@@ -2,18 +2,21 @@ package com.web.userregistration.Service;
 
 import com.web.userregistration.Model.UserDtls;
 import com.web.userregistration.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
+
 
     @Autowired
     private UserRepository userRepo;
@@ -30,9 +33,11 @@ public class UserServiceImpl implements UserService {
 
         return userRepo.save(user);
     }
+
     public boolean checkPassword(String password) {
         return password.length() >= 6;
     }
+
     @Override
     public boolean isExistingEmail(String email) {
         // Check if email already exists
@@ -50,6 +55,10 @@ public class UserServiceImpl implements UserService {
         // Return true if the email address matches the pattern, false otherwise
         return matcher.matches();
     }
+
+
+
+
 
 
 }

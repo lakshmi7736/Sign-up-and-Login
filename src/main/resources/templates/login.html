@@ -17,39 +17,33 @@
         <div class="card">
           <div class="card-header text-center fs-4">Login Page</div>
 
-          <th:block th:if="${session.msg}">
-            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
-            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
-          </th:block>
-<!--          <th:block th:if="${param.error}" class="alert alert-danger">-->
-<!--            Invalid username & Password-->
-<!--            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>-->
-<!--          </th:block>-->
+          <div th:if="${error}">
+            <p th:text="${error}" style="color: red;"></p>
+          </div>
 
-<!--          <th:block th:if="${param.logout}" class="alert alert-success">-->
-<!--            Logout Sucessfully-->
-<!--            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>-->
-<!--          </th:block>-->
+
 
           <div class="card-body">
 
-            <form>
-              <div class="form-group">
-                <label for="newUsername">* Username: </label>
-                <input
+            <form action="/login" method="post">
+              <div class="mb-3">
+                    <label for="newUsername">Enter Username: </label>
+                     <input
                       required="required" type="text" class="form-control"
                       id="newUsername" name="username" />
-                <p style="color: #828282">Enter your username here.</p>
+
               </div>
 
-              <div class="form-group">
-                <label for="password">* Password: </label> <input
-                      required="required" type="password" class="form-control"
-                      id="password" name="password" />
-                <p style="color: #828282">Enter password</p>
+              <div class="mb-3">
+                <label for="password">Enter Password: </label>
+                <input
+                      required="required" type="password" class="form-control" id="password" name="password" />
+
               </div>
 
-              <button type="submit" class="btn btn-primary">Log in</button>
+
+              <button class="btn btn-primary col-md-12">login</button>
+
             </form>
           </div>
         </div>

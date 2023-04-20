@@ -1,11 +1,16 @@
 package com.web.userregistration.Controller;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import com.web.userregistration.Model.UserDtls;
 import com.web.userregistration.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.file.Files;
 
 @Controller
 public class HomeController {
@@ -21,14 +26,6 @@ public class HomeController {
 
 
 
-    @GetMapping(value = "/signin")
-    public String login() {
-        return "login";
-    }
-
-
-
-
     @GetMapping(value = "/register")
     public String register() {
         return "register";
@@ -38,11 +35,6 @@ public class HomeController {
 
     @PostMapping(value = "/createUser")
     public String createUser(@ModelAttribute UserDtls user, HttpSession session){
-        // Check if any fields are empty
-        if(user.getEmail().isEmpty() || user.getPassword().isEmpty() || user.getFullName().isEmpty()){
-            session.setAttribute("msg","Please fill out all fields.");
-            return "redirect:/register";
-        }
 
         // Check if email already exists
         boolean emailExists = userService.isExistingEmail(user.getEmail());
@@ -61,7 +53,7 @@ public class HomeController {
         // Check if password is valid
         boolean validPassword = userService.checkPassword(user.getPassword());
         if(!validPassword){
-            session.setAttribute("msg","Invalid password format. Password must be at least 8 characters long.");
+            session.setAttribute("msg","Invalid password format. Password must be at least 6 characters long.");
             return "redirect:/register";
         }
 
@@ -77,12 +69,21 @@ public class HomeController {
         return "redirect:/register";
     }
 
+    @GetMapping("/signin")
+    public String showLoginForm() {
+        return "login";
+    }
 
-
-
-
-
-
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+        // Perform backend validation here and return appropriate view
+        if (username.equals("admin") && password.equals("password")) {
+            return "redirect:/user/";
+        } else {
+            model.addAttribute("error", "Invalid credentials");
+            return "login";
+        }
+    }
 
 
 }
